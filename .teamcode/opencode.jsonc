@@ -1,0 +1,73 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "god",
+  "lsp": false,
+  "instructions": [
+    "instructions/GODOT.md"
+  ],
+  "tools": {},
+  "command": {
+    "dev": {
+      "description": "Open the Godot editor",
+      "prompt": "Open the Godot editor for this project."
+    },
+    "build": {
+      "description": "Build the C# solution and export the game",
+      "prompt": "Build the C# project and export the game for the target platform."
+    },
+    "test": {
+      "description": "Run Godot unit tests (if using GUT or similar)",
+      "prompt": "Run the game tests (GUT test runner or custom test scene)."
+    },
+    "check": {
+      "description": "Check Godot project for script errors",
+      "prompt": "Run godot --check-only to validate scripts."
+    },
+    "dotnet": {
+      "description": "Build the C# .NET solution",
+      "prompt": "Run dotnet build to compile C# scripts."
+    }
+  },
+  "agent": {
+    "god": {
+      "description": "Agente onipotente para o clone Vampire Survivors em Godot 4.6 + C#"
+    },
+    "executor": {
+      "description": "Implementa mudanças no código Godot/C# seguindo um plano"
+    },
+    "planner": {
+      "description": "Decompõe tarefas complexas em planos de ação para Godot"
+    },
+    "researcher": {
+      "description": "Explora o código Godot/C# para reunir evidências antes de mudanças"
+    },
+    "reviewer": {
+      "description": "Revisa código Godot/C# para qualidade, corretude e consistência"
+    }
+  },
+  "provider": {
+    "opencode": {
+      "options": {}
+    }
+  },
+  "mcp": {},
+  "permission": {
+    "edit": "allow",
+    "question": "deny",
+    "bash": {
+      "*": "allow"
+    },
+    "external_directory": {
+      "*": "allow"
+    }
+  },
+  "experimental": {},
+  "tool_output": {
+    "max_lines": 200,
+    "max_bytes": 16384
+  },
+  "compaction": {
+    "auto": true,
+    "tail_turns": 15
+  }
+}

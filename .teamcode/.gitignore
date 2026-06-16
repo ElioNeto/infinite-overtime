@@ -1,0 +1,11 @@
+node_modules/
+.Turbo/
+dist/
+build/
+*.tsbuildinfo
+export/
+.godot/
+.mono/
+*.mono.mdb
+*.pdb
+user://
