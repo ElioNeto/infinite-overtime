@@ -19,8 +19,8 @@ public partial class WaveSpawner : Node
     [Export] public float MinSpawnDistance { get; set; } = 400f; // Distância mínima do jogador
     [Export] public bool SpawnEnabled { get; set; } = true;
 
-    [ExportGroup("Pool")]
-    [Export] public Godot.Collections.Array<EnemySpawnEntry> EnemyPool { get; set; } = new();
+    // Pool interna construída a partir do FloorData (não usa sub-resources de .tres)
+    private Godot.Collections.Array<EnemySpawnEntry> _enemyPool = new();
 
     private float _spawnTimer = 0f;
     private int _activeEnemyCount = 0;
@@ -72,7 +72,7 @@ public partial class WaveSpawner : Node
     /// </summary>
     private void SpawnEnemy()
     {
-        if (EnemyPool.Count == 0)
+        if (_enemyPool.Count == 0)
         {
             GD.PrintErr("WaveSpawner: Pool de inimigos vazia!");
             return;
@@ -83,7 +83,7 @@ public partial class WaveSpawner : Node
         var availableEnemies = new Godot.Collections.Array<EnemySpawnEntry>();
 
         float totalWeight = 0f;
-        foreach (var entry in EnemyPool)
+        foreach (var entry in _enemyPool)
         {
             if (entry.Enemy == null) continue;
             if (entry.MinFloorMinute > currentMinute) continue;
@@ -145,13 +145,27 @@ public partial class WaveSpawner : Node
 
     /// <summary>
     /// Configura a pool de inimigos para um andar específico.
+    /// Constrói os EnemySpawnEntry internamente a partir dos arrays paralelos do FloorData,
+    /// evitando o uso de sub-resources nos .tres (que falham no Godot 4 C# com GlobalClass).
     /// </summary>
     public void SetEnemyPoolForFloor(FloorData floor)
     {
-        EnemyPool = floor.EnemyPool;
+        _enemyPool.Clear();
+
+        int count = Mathf.Min(floor.EnemyPool.Count,
+                    Mathf.Min(floor.EnemyWeights.Count, floor.EnemyMinMinutes.Count));
+        for (int i = 0; i < count; i++)
+        {
+            var entry = new EnemySpawnEntry();
+            entry.Enemy = floor.EnemyPool[i];
+            entry.Weight = floor.EnemyWeights[i];
+            entry.MinFloorMinute = floor.EnemyMinMinutes[i];
+            _enemyPool.Add(entry);
+        }
+
         BaseSpawnRate = floor.BaseSpawnRate;
         MaxEnemiesAlive = floor.MaxEnemiesAlive;
-        GD.Print($"WaveSpawner: Pool configurada para {floor.FloorName}");
+        GD.Print($"WaveSpawner: Pool configurada para {floor.FloorName} ({_enemyPool.Count} tipos)");
     }
 
 }

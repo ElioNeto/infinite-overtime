@@ -20,7 +20,9 @@ public partial class FloorData : Resource
     [Export] public bool HasBoss { get; set; } = true;
 
     [ExportGroup("Spawn")]
-    [Export] public Godot.Collections.Array<EnemySpawnEntry> EnemyPool { get; set; } = new();
+    [Export] public Godot.Collections.Array<EnemyData> EnemyPool { get; set; } = new();
+    [Export] public Godot.Collections.Array<float> EnemyWeights { get; set; } = new();
+    [Export] public Godot.Collections.Array<int> EnemyMinMinutes { get; set; } = new();
     [Export] public float BaseSpawnRate { get; set; } = 2f; // Inimigos por segundo (base)
     [Export] public int MaxEnemiesAlive { get; set; } = 50;
 

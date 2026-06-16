@@ -70,7 +70,8 @@ public partial class GameManager : Node
 
     // --- Deferred loading ---
     private bool _resourcesLoaded = false;
-    private bool _diagnosticsPrinted = false;
+    private float _retryCooldown = 0f;          // só tenta de novo depois de X segundos
+    private const float RETRY_INTERVAL = 2.0f;  // intervalo entre tentativas
 
     public override void _Ready()
     {
@@ -101,9 +102,6 @@ public partial class GameManager : Node
         InitializeFloors();
         LoadDefaultWeapon();
 
-        PrintResourceDiagnostics();
-        _diagnosticsPrinted = true;
-
         if (_floors.Count > 0)
         {
             _resourcesLoaded = true;
@@ -115,73 +113,20 @@ public partial class GameManager : Node
         }
     }
 
-    /// <summary>
-    /// Imprime diagnóstico detalhado sobre o carregamento de recursos.
-    /// Ajuda a identificar qual arquivo específico está falhando.
-    /// </summary>
-    private void PrintResourceDiagnostics()
-    {
-        GD.Print("=== DIAGNÓSTICO DE RECURSOS ===");
-
-        // Testa carregamento de cada EnemyData.tres individualmente
-        string[] enemyPaths = {
-            "res://Resources/Enemies/EmailNaoLido.tres",
-            "res://Resources/Enemies/CafeDerramado.tres",
-            "res://Resources/Enemies/PlanilhaMalignificada.tres",
-            "res://Resources/Enemies/NotebookSuperaquecido.tres",
-            "res://Resources/Enemies/AvaliacaoFantasma.tres",
-            "res://Resources/Enemies/AtaDeReuniao.tres"
-        };
-        foreach (string path in enemyPaths)
-        {
-            bool exists = ResourceLoader.Exists(path);
-            var enemy = GD.Load<EnemyData>(path);
-            GD.Print($"  EnemyData {path.GetFile()}: exists={exists}, loaded={(enemy != null)}, scene={(enemy?.Scene != null)}");
-        }
-
-        // Testa cada WeaponData
-        string[] weaponPaths = {
-            "res://Resources/Weapons/ClipesReforcados.tres",
-            "res://Resources/Weapons/NotebookSuperaquecido.tres",
-            "res://Resources/Weapons/PlanilhaExplosiva.tres",
-            "res://Resources/Weapons/CafeEspirrado.tres",
-            "res://Resources/Weapons/MensagemPassivoAgressiva.tres",
-            "res://Resources/Weapons/ImpressoraFantasma.tres"
-        };
-        foreach (string path in weaponPaths)
-        {
-            bool exists = ResourceLoader.Exists(path);
-            var weapon = GD.Load<WeaponData>(path);
-            GD.Print($"  WeaponData {path.GetFile()}: exists={exists}, loaded={(weapon != null)}, scene={(weapon?.ProjectileScene != null)}");
-        }
-
-        // Testa scenes individuais
-        string[] scenePaths = {
-            "res://Scenes/Enemies/EmailNaoLido.tscn",
-            "res://Scenes/Enemies/CafeDerramado.tscn",
-            "res://Scenes/Enemies/PlanilhaMalignificada.tscn",
-            "res://Scenes/Enemies/NotebookSuperaquecido.tscn",
-            "res://Scenes/Enemies/AvaliacaoFantasma.tscn",
-            "res://Scenes/Enemies/AtaDeReuniao.tscn",
-            "res://Scenes/Weapons/Projectile.tscn",
-            "res://Scenes/Pickups/CoffeeDrop.tscn"
-        };
-        foreach (string path in scenePaths)
-        {
-            bool exists = ResourceLoader.Exists(path);
-            var scene = GD.Load<PackedScene>(path);
-            GD.Print($"  Scene {path.GetFile()}: exists={exists}, loaded={(scene != null)}");
-        }
-
-        GD.Print("=== FIM DIAGNÓSTICO ===");
-    }
+    // PrintResourceDiagnostics foi removido — não é mais necessário.
+    // O problema era Color(r, g, b) em vez de Color(r, g, b, a) nos .tscn.
 
     public override void _Process(double delta)
     {
-        // Tenta carregar recursos se ainda não foi feito (fallback)
+        // Tenta carregar recursos se ainda não foi feito (fallback com cooldown)
         if (!_resourcesLoaded && Instance != null)
         {
-            TryLoadResources();
+            _retryCooldown -= (float)delta;
+            if (_retryCooldown <= 0f)
+            {
+                _retryCooldown = RETRY_INTERVAL;
+                TryLoadResources();
+            }
         }
 
         if (_currentState != GameStateType.Playing) return;

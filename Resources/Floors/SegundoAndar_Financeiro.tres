@@ -1,25 +1,9 @@
-[gd_resource type="Resource" load_steps=7 format=3]
+[gd_resource type="Resource" load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
-[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
-[ext_resource type="Resource" path="res://Resources/Enemies/EmailNaoLido.tres" id="3"]
-[ext_resource type="Resource" path="res://Resources/Enemies/PlanilhaMalignificada.tres" id="4"]
-[ext_resource type="Resource" path="res://Resources/Enemies/CafeDerramado.tres" id="5"]
-
-[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_s1"]
-Enemy = ExtResource("3")
-Weight = 1.5
-MinFloorMinute = 0
-
-[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_s2"]
-Enemy = ExtResource("4")
-Weight = 1.5
-MinFloorMinute = 0
-
-[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_s3"]
-Enemy = ExtResource("5")
-Weight = 0.8
-MinFloorMinute = 1
+[ext_resource type="Resource" path="res://Resources/Enemies/EmailNaoLido.tres" id="2"]
+[ext_resource type="Resource" path="res://Resources/Enemies/PlanilhaMalignificada.tres" id="3"]
+[ext_resource type="Resource" path="res://Resources/Enemies/CafeDerramado.tres" id="4"]
 
 [resource]
 script = ExtResource("1")
@@ -28,7 +12,9 @@ FloorIndex = 1
 Description = "O cheiro de café queimado se mistura com planilhas voadoras."
 DurationMinutes = 6.0
 HasBoss = false
-EnemyPool = [SubResource("EnemySpawnEntry_s1"), SubResource("EnemySpawnEntry_s2"), SubResource("EnemySpawnEntry_s3")]
+EnemyPool = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+EnemyWeights = [1.5, 1.5, 0.8]
+EnemyMinMinutes = [0, 0, 1]
 BaseSpawnRate = 2.0
 MaxEnemiesAlive = 35
 AmbientColor = Color(0.2, 0.18, 0.25, 1.0)
