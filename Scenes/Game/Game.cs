@@ -23,6 +23,7 @@ public partial class Game : Node
 
     private Node _hudInstance;
     private Employee _playerInstance;
+    private bool _weaponEquipped = false;
 
     public override void _Ready()
     {
@@ -61,7 +62,7 @@ public partial class Game : Node
             // Adiciona aos grupos
             _playerInstance.AddToGroup("player");
 
-            // Dá a arma inicial ao jogador
+            // Dá a arma inicial ao jogador (pode ser null se recursos ainda carregando)
             var defaultWeapon = GameManager.Instance?.DefaultWeapon;
             if (defaultWeapon != null)
             {
@@ -70,7 +71,12 @@ public partial class Game : Node
                 _playerInstance.AddChild(weaponNode);
 
                 GameManager.Instance.AddWeapon(defaultWeapon);
+                _weaponEquipped = true;
                 GD.Print($"Game: Arma inicial '{defaultWeapon.WeaponName}' equipada.");
+            }
+            else
+            {
+                GD.Print("Game: Arma inicial ainda não carregada — será equipada depois.");
             }
 
             GD.Print("Game: Jogador instanciado.");
@@ -124,6 +130,22 @@ public partial class Game : Node
     {
         GD.Print($"Game: Minuto {totalMinute} — Dificuldade aumentada!");
         // Pode tocar efeitos sonoros ou avisos na UI
+    }
+
+    public override void _Process(double delta)
+    {
+        // Tenta equipar arma inicial se não foi possível no _Ready (recursos carregaram depois)
+        if (!_weaponEquipped && _playerInstance != null && GameManager.Instance?.DefaultWeapon != null)
+        {
+            var defaultWeapon = GameManager.Instance.DefaultWeapon;
+            var weaponNode = new Weapon2D();
+            weaponNode.WeaponData = defaultWeapon;
+            _playerInstance.AddChild(weaponNode);
+
+            GameManager.Instance.AddWeapon(defaultWeapon);
+            _weaponEquipped = true;
+            GD.Print($"Game: Arma inicial '{defaultWeapon.WeaponName}' equipada (após carregamento).");
+        }
     }
 
     public override void _Input(InputEvent @event)

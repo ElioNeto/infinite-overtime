@@ -48,8 +48,11 @@ public partial class Weapon2D : Node2D
     private void UpdateTimerInterval()
     {
         if (WeaponData == null) return;
-        float baseInterval = 1f / WeaponData.GetAttackSpeedForLevel(WeaponLevel);
-        _attackTimer.WaitTime = baseInterval / AttackSpeedMultiplier;
+        float attackSpeed = WeaponData.GetAttackSpeedForLevel(WeaponLevel);
+        if (attackSpeed <= 0f) attackSpeed = 0.5f; // Segurança contra divisão por zero
+        float baseInterval = 1f / attackSpeed;
+        float effectiveMultiplier = AttackSpeedMultiplier > 0f ? AttackSpeedMultiplier : 1f;
+        _attackTimer.WaitTime = baseInterval / effectiveMultiplier;
     }
 
     /// <summary>

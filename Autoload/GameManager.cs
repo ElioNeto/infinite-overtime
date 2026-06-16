@@ -68,6 +68,10 @@ public partial class GameManager : Node
     // --- Arma inicial ---
     private WeaponData _defaultWeapon;
 
+    // --- Deferred loading ---
+    private bool _resourcesLoaded = false;
+    private bool _diagnosticsPrinted = false;
+
     public override void _Ready()
     {
         if (Instance != null)
@@ -77,12 +81,109 @@ public partial class GameManager : Node
         }
         Instance = this;
         ProcessMode = ProcessModeEnum.Always;
+
+        // Tenta carregar recursos no _Ready. Se falhar (ResourceLoader pode
+        // não estar totalmente inicializado para autoloads), faz nova tentativa
+        // no primeiro _Process.
+        TryLoadResources();
+        if (!_resourcesLoaded)
+        {
+            GD.Print("GameManager: Recursos não carregaram no _Ready — tentando no _Process.");
+            CallDeferred(nameof(TryLoadResources));
+        }
+    }
+
+    private void TryLoadResources()
+    {
+        if (_resourcesLoaded) return;
+
+        GD.Print("GameManager: Inicializando recursos...");
         InitializeFloors();
         LoadDefaultWeapon();
+
+        PrintResourceDiagnostics();
+        _diagnosticsPrinted = true;
+
+        if (_floors.Count > 0)
+        {
+            _resourcesLoaded = true;
+            GD.Print($"GameManager: {_floors.Count} andares carregados.");
+        }
+        else
+        {
+            GD.PrintErr("GameManager: Nenhum andar carregado de Resources/Floors/!");
+        }
+    }
+
+    /// <summary>
+    /// Imprime diagnóstico detalhado sobre o carregamento de recursos.
+    /// Ajuda a identificar qual arquivo específico está falhando.
+    /// </summary>
+    private void PrintResourceDiagnostics()
+    {
+        GD.Print("=== DIAGNÓSTICO DE RECURSOS ===");
+
+        // Testa carregamento de cada EnemyData.tres individualmente
+        string[] enemyPaths = {
+            "res://Resources/Enemies/EmailNaoLido.tres",
+            "res://Resources/Enemies/CafeDerramado.tres",
+            "res://Resources/Enemies/PlanilhaMalignificada.tres",
+            "res://Resources/Enemies/NotebookSuperaquecido.tres",
+            "res://Resources/Enemies/AvaliacaoFantasma.tres",
+            "res://Resources/Enemies/AtaDeReuniao.tres"
+        };
+        foreach (string path in enemyPaths)
+        {
+            bool exists = ResourceLoader.Exists(path);
+            var enemy = GD.Load<EnemyData>(path);
+            GD.Print($"  EnemyData {path.GetFile()}: exists={exists}, loaded={(enemy != null)}, scene={(enemy?.Scene != null)}");
+        }
+
+        // Testa cada WeaponData
+        string[] weaponPaths = {
+            "res://Resources/Weapons/ClipesReforcados.tres",
+            "res://Resources/Weapons/NotebookSuperaquecido.tres",
+            "res://Resources/Weapons/PlanilhaExplosiva.tres",
+            "res://Resources/Weapons/CafeEspirrado.tres",
+            "res://Resources/Weapons/MensagemPassivoAgressiva.tres",
+            "res://Resources/Weapons/ImpressoraFantasma.tres"
+        };
+        foreach (string path in weaponPaths)
+        {
+            bool exists = ResourceLoader.Exists(path);
+            var weapon = GD.Load<WeaponData>(path);
+            GD.Print($"  WeaponData {path.GetFile()}: exists={exists}, loaded={(weapon != null)}, scene={(weapon?.ProjectileScene != null)}");
+        }
+
+        // Testa scenes individuais
+        string[] scenePaths = {
+            "res://Scenes/Enemies/EmailNaoLido.tscn",
+            "res://Scenes/Enemies/CafeDerramado.tscn",
+            "res://Scenes/Enemies/PlanilhaMalignificada.tscn",
+            "res://Scenes/Enemies/NotebookSuperaquecido.tscn",
+            "res://Scenes/Enemies/AvaliacaoFantasma.tscn",
+            "res://Scenes/Enemies/AtaDeReuniao.tscn",
+            "res://Scenes/Weapons/Projectile.tscn",
+            "res://Scenes/Pickups/CoffeeDrop.tscn"
+        };
+        foreach (string path in scenePaths)
+        {
+            bool exists = ResourceLoader.Exists(path);
+            var scene = GD.Load<PackedScene>(path);
+            GD.Print($"  Scene {path.GetFile()}: exists={exists}, loaded={(scene != null)}");
+        }
+
+        GD.Print("=== FIM DIAGNÓSTICO ===");
     }
 
     public override void _Process(double delta)
     {
+        // Tenta carregar recursos se ainda não foi feito (fallback)
+        if (!_resourcesLoaded && Instance != null)
+        {
+            TryLoadResources();
+        }
+
         if (_currentState != GameStateType.Playing) return;
 
         _elapsedGameTime += (float)delta;
@@ -108,42 +209,55 @@ public partial class GameManager : Node
     {
         _floors.Clear();
 
-        // Carrega todos os .tres da pasta Resources/Floors/
         string floorsDir = "res://Resources/Floors/";
-        if (DirAccess.DirExistsAbsolute(floorsDir))
+        if (!DirAccess.DirExistsAbsolute(floorsDir))
         {
-            var dir = DirAccess.Open(floorsDir);
-            if (dir != null)
-            {
-                dir.ListDirBegin();
-                string fileName = dir.GetNext();
-                while (!string.IsNullOrEmpty(fileName))
-                {
-                    if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
-                    {
-                        string path = floorsDir + fileName;
-                        var floorData = GD.Load<FloorData>(path);
-                        if (floorData != null)
-                        {
-                            _floors.Add(floorData);
-                            GD.Print($"GameManager: Andar carregado: {floorData.FloorName}");
-                        }
-                    }
-                    fileName = dir.GetNext();
-                }
-                dir.ListDirEnd();
-            }
+            GD.PrintErr($"GameManager: Diretório não encontrado: {floorsDir}");
+            return;
         }
+
+        var dir = DirAccess.Open(floorsDir);
+        if (dir == null)
+        {
+            GD.PrintErr($"GameManager: Falha ao abrir diretório: {floorsDir}");
+            return;
+        }
+
+        dir.ListDirBegin();
+        string fileName = dir.GetNext();
+        int foundCount = 0;
+        int loadedCount = 0;
+
+        while (!string.IsNullOrEmpty(fileName))
+        {
+            if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
+            {
+                foundCount++;
+                string path = floorsDir + fileName;
+                bool exists = ResourceLoader.Exists(path);
+                var floorData = GD.Load<FloorData>(path);
+
+                if (floorData != null)
+                {
+                    _floors.Add(floorData);
+                    loadedCount++;
+                    GD.Print($"GameManager: Andar carregado: {floorData.FloorName}");
+                }
+                else
+                {
+                    GD.PrintErr($"GameManager: Falha ao carregar andar: {path} (exists={exists})");
+                }
+            }
+            fileName = dir.GetNext();
+        }
+        dir.ListDirEnd();
+
+        GD.Print($"GameManager: Encontrados {foundCount} arquivos, carregados {loadedCount} andares.");
 
         // Ordena por FloorIndex
         var floorList = new System.Collections.Generic.List<FloorData>(_floors);
         floorList.Sort((a, b) => a.FloorIndex.CompareTo(b.FloorIndex));
         _floors = new Godot.Collections.Array<FloorData>(floorList);
-
-        if (_floors.Count == 0)
-            GD.PrintErr("GameManager: Nenhum andar carregado de Resources/Floors/!");
-        else
-            GD.Print($"GameManager: {_floors.Count} andares carregados.");
     }
 
     /// <summary>
@@ -151,14 +265,17 @@ public partial class GameManager : Node
     /// </summary>
     private void LoadDefaultWeapon()
     {
-        _defaultWeapon = GD.Load<WeaponData>("res://Resources/Weapons/ClipesReforcados.tres");
+        string weaponPath = "res://Resources/Weapons/ClipesReforcados.tres";
+        bool exists = ResourceLoader.Exists(weaponPath);
+        _defaultWeapon = GD.Load<WeaponData>(weaponPath);
+
         if (_defaultWeapon != null)
         {
             GD.Print($"GameManager: Arma inicial carregada: {_defaultWeapon.WeaponName}");
         }
         else
         {
-            GD.PrintErr("GameManager: Arma inicial não encontrada!");
+            GD.PrintErr($"GameManager: Arma inicial NÃO encontrada! path={weaponPath} exists={exists}");
         }
     }
 
@@ -243,7 +360,6 @@ public partial class GameManager : Node
 
             // Pausa para escolha de upgrade
             GetTree().Paused = true;
-            // A UI de upgrade deve escutar OnLeveledUp e mostrar as opções
         }
     }
 

@@ -42,12 +42,3 @@ public partial class FloorData : Resource
         return BaseSpawnRate * (1f + 0.05f * minute);
     }
 }
-
-[Serializable]
-[GlobalClass]
-public partial class EnemySpawnEntry : Resource
-{
-    [Export] public EnemyData Enemy { get; set; }
-    [Export] public float Weight { get; set; } = 1f; // Peso relativo no spawn pool
-    [Export] public int MinFloorMinute { get; set; } = 0; // A partir de qual minuto spawna
-}

@@ -54,7 +54,7 @@ public partial class FloorManager : Node
     {
         if (floorIndex < 0 || floorIndex >= Floors.Count)
         {
-            GD.PrintErr($"FloorManager: Andar {floorIndex} não existe!");
+            GD.PrintErr($"FloorManager: Andar {floorIndex} não existe! Floors.Count={Floors.Count}");
             return;
         }
 
@@ -66,14 +66,21 @@ public partial class FloorManager : Node
 
         GD.Print($"FloorManager: Carregando {floorData.FloorName}...");
 
-        // Carrega cena do andar (se existir)
+        // Carrega cena do andar (se existir — opcional, será criada depois)
         string scenePath = $"res://Scenes/Floors/Floor{floorIndex + 1}_{SanitizeName(floorData.FloorName)}.tscn";
-        var floorScene = GD.Load<PackedScene>(scenePath);
-
-        if (floorScene != null && FloorContainer != null)
+        if (ResourceLoader.Exists(scenePath))
         {
-            _currentFloorInstance = floorScene.Instantiate<Node2D>();
-            FloorContainer.AddChild(_currentFloorInstance);
+            var floorScene = GD.Load<PackedScene>(scenePath);
+            if (floorScene != null && FloorContainer != null)
+            {
+                _currentFloorInstance = floorScene.Instantiate<Node2D>();
+                FloorContainer.AddChild(_currentFloorInstance);
+                GD.Print($"FloorManager: Cena do andar instanciada: {scenePath}");
+            }
+        }
+        else
+        {
+            GD.Print($"FloorManager: Cena do andar não encontrada (será criada depois): {scenePath}");
         }
 
         // Configura o WaveSpawner para este andar
@@ -82,16 +89,19 @@ public partial class FloorManager : Node
             WaveSpawner.SetEnemyPoolForFloor(floorData);
         }
 
-        // Configura iluminação ambiente
-        // (a ser implementado com WorldEnvironment)
+        // Configura iluminação ambiente (a ser implementado com WorldEnvironment)
 
         // Configura música
         if (!string.IsNullOrEmpty(floorData.MusicTrack))
         {
-            var musicStream = GD.Load<AudioStream>($"res://Audio/Music/{floorData.MusicTrack}");
-            if (musicStream != null)
+            string musicPath = $"res://Audio/Music/{floorData.MusicTrack}";
+            if (ResourceLoader.Exists(musicPath))
             {
-                AudioManager.Instance?.PlayMusic(musicStream);
+                var musicStream = GD.Load<AudioStream>(musicPath);
+                if (musicStream != null)
+                {
+                    AudioManager.Instance?.PlayMusic(musicStream);
+                }
             }
         }
 

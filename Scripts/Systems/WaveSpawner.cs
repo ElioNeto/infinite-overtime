@@ -29,10 +29,6 @@ public partial class WaveSpawner : Node
     public override void _Ready()
     {
         _player = GameManager.Instance?.Player;
-
-        // Atualiza contagem de inimigos ativos
-        EnemyCounter counter = new EnemyCounter();
-        AddChild(counter);
     }
 
     public override void _Process(double delta)
@@ -158,16 +154,4 @@ public partial class WaveSpawner : Node
         GD.Print($"WaveSpawner: Pool configurada para {floor.FloorName}");
     }
 
-    /// <summary>
-    /// Contagem de inimigos ativos na cena (nó auxiliar).
-    /// </summary>
-    private partial class EnemyCounter : Node
-    {
-        public override void _Process(double delta)
-        {
-            // Mantém a contagem atualizada via grupo
-            var enemies = GetTree().GetNodesInGroup("enemies");
-            // Usado externamente
-        }
-    }
 }
