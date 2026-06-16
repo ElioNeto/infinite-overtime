@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://victory"]
+[gd_scene format=3 uid="uid://victory"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Victory.cs" id="1"]
 
