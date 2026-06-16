@@ -12,8 +12,8 @@ namespace CorporateSurvivors;
 public partial class BaseEnemy : CharacterBody2D
 {
     // --- Exports ---
-    [ExportGroup("Dados")]
-    [Export] public EnemyData EnemyData { get; set; }
+    // (definido programaticamente pelo WaveSpawner)
+    public EnemyData EnemyData { get; set; }
 
     [ExportGroup("Nodes")]
     [Export] public Sprite2D Sprite { get; set; }

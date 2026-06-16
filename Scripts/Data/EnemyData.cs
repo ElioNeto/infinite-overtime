@@ -32,9 +32,27 @@ public partial class EnemyData : Resource
     [Export] public int MinWaveLevel { get; set; } = 1; // A partir de qual onda esse inimigo aparece
 
     [ExportGroup("Visual")]
-    [Export] public PackedScene Scene { get; set; }
+    [Export] public string ScenePath { get; set; } = ""; // Caminho para o .tscn do inimigo (carregado lazy)
     [Export] public Texture2D Icon { get; set; }
     [Export] public Color GlowColor { get; set; } = new Color(1f, 0.2f, 0.2f);
+
+    // Cache lazy da PackedScene para compatibilidade com código existente
+    private PackedScene _cachedScene = null;
+    /// <summary>
+    /// Retorna a PackedScene carregada a partir de ScenePath.
+    /// Carregada apenas no primeiro acesso (lazy load), fora do ciclo de ResourceLoader.
+    /// </summary>
+    public PackedScene Scene
+    {
+        get
+        {
+            if (_cachedScene == null && !string.IsNullOrEmpty(ScenePath))
+            {
+                _cachedScene = GD.Load<PackedScene>(ScenePath);
+            }
+            return _cachedScene;
+        }
+    }
 }
 
 public enum EnemyBehaviorType

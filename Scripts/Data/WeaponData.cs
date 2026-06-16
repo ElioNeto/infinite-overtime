@@ -35,9 +35,27 @@ public partial class WeaponData : Resource
     [Export] public float AttackSpeedPerLevel { get; set; } = 0.1f;
 
     [ExportGroup("Visual")]
-    [Export] public PackedScene ProjectileScene { get; set; }
+    [Export] public string ProjectileScenePath { get; set; } = ""; // Caminho para o .tscn do projétil (carregado lazy)
     [Export] public Texture2D Icon { get; set; }
     [Export] public Color ProjectileColor { get; set; } = Colors.White;
+
+    // Cache lazy da PackedScene para compatibilidade com código existente
+    private PackedScene _cachedProjectileScene = null;
+    /// <summary>
+    /// Retorna a PackedScene carregada a partir de ProjectileScenePath.
+    /// Carregada apenas no primeiro acesso (lazy load), fora do ciclo de ResourceLoader.
+    /// </summary>
+    public PackedScene ProjectileScene
+    {
+        get
+        {
+            if (_cachedProjectileScene == null && !string.IsNullOrEmpty(ProjectileScenePath))
+            {
+                _cachedProjectileScene = GD.Load<PackedScene>(ProjectileScenePath);
+            }
+            return _cachedProjectileScene;
+        }
+    }
 
     /// <summary>
     /// Retorna o dano calculado para um determinado nível da arma.

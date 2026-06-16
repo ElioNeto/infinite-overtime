@@ -1,7 +1,6 @@
-[gd_resource type="Resource" load_steps=3 format=3]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="1"]
-[ext_resource type="PackedScene" path="res://Scenes/Enemies/PlanilhaMalignificada.tscn" id="2"]
 
 [resource]
 script = ExtResource("1")
@@ -17,5 +16,5 @@ BehaviorType = 1
 DetectionRange = 300.0
 SpawnWeight = 1.5
 MinWaveLevel = 2
-Scene = ExtResource("2")
+ScenePath = "res://Scenes/Enemies/PlanilhaMalignificada.tscn"
 GlowColor = Color(0.2, 0.4, 0.9, 1.0)

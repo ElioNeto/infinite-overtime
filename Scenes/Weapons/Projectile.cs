@@ -10,8 +10,8 @@ namespace CorporateSurvivors;
 /// </summary>
 public partial class Projectile : Area2D
 {
-    [ExportGroup("Dados")]
-    [Export] public WeaponData WeaponData { get; set; }
+    // (definido programaticamente pelo Weapon2D)
+    public WeaponData WeaponData { get; set; }
 
     [ExportGroup("Atributos")]
     [Export] public float Damage { get; set; } = 10f;

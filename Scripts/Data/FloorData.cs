@@ -31,7 +31,7 @@ public partial class FloorData : Resource
 
     [ExportGroup("Boss")]
     [Export] public string BossName { get; set; } = "Porteiro Eterno";
-    [Export] public PackedScene BossScene { get; set; }
+    [Export] public string BossScenePath { get; set; } = ""; // Caminho para o .tscn do boss (carregado lazy)
 
     /// <summary>
     /// Retorna a taxa de spawn ajustada para o minuto atual dentro deste andar.
