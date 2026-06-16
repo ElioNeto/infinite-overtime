@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://coffee_drop"]
+
+[ext_resource type="Script" path="res://Scenes/Pickups/CoffeeDrop.cs" id="1"]
+[ext_resource type="Texture2D" path="res://Art/Sprites/Pickups/coffee_cup.svg" id="2"]
+
+[node name="CoffeeDrop" type="Area2D"]
+script = ExtResource("1")
+Amount = 5.0
+Lifetime = 15.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h8d2")
+disabled = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="GpuParticles2D" type="GpuParticles2D" parent="."]
+emitting = true
+amount = 4
+lifetime = 0.8
+local_coords = false

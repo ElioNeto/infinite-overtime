@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://game_main"]
+
+[ext_resource type="Script" path="res://Scenes/Game/Game.cs" id="1"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1")
+
+[node name="WorldContainer" type="Node2D" parent="."]
+
+[node name="WaveSpawner" type="Node" parent="."]
+script = ExtResource("res://Scripts/Systems/WaveSpawner.cs")
+BaseSpawnRate = 2.0
+MaxEnemiesAlive = 50
+
+[node name="FloorManager" type="Node" parent="."]
+script = ExtResource("res://Scripts/Systems/FloorManager.cs")
+
+[node name="UpgradeSystem" type="Node" parent="."]
+script = ExtResource("res://Scripts/Systems/UpgradeSystem.cs")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_s8d2h")
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+visible = false
