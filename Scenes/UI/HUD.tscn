@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud_main"]
+
+[ext_resource type="Script" path="res://Scenes/UI/HUD.cs" id="1"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="TimerLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 200.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 24
+text = "00:00"
+
+[node name="FloorLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 52.0
+offset_right = 400.0
+offset_bottom = 80.0
+text = "Térreo — Recepção"
+
+[node name="LevelLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 88.0
+offset_right = 200.0
+offset_bottom = 116.0
+text = "Nível 1"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = 16.0
+offset_top = 700.0
+offset_right = 416.0
+offset_bottom = 740.0
+show_percentage = false
+value = 100.0
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 664.0
+offset_right = 200.0
+offset_bottom = 692.0
+text = "HP: 100/100"
+
+[node name="CoffeeBar" type="ProgressBar" parent="."]
+offset_left = 16.0
+offset_top = 780.0
+offset_right = 416.0
+offset_bottom = 820.0
+show_percentage = false
+value = 0.0
+
+[node name="CoffeeLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 744.0
+offset_right = 200.0
+offset_bottom = 772.0
+text = "Café: 0.0"
+
+[node name="UpgradePanel" type="Panel" parent="."]
+visible = false
+offset_left = 340.0
+offset_top = 240.0
+offset_right = 860.0
+offset_bottom = 600.0
+
+[node name="UpgradeOption1" type="Button" parent="UpgradePanel"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 500.0
+offset_bottom = 100.0
+text = "Upgrade 1"
+
+[node name="UpgradeOption2" type="Button" parent="UpgradePanel"]
+offset_left = 20.0
+offset_top = 120.0
+offset_right = 500.0
+offset_bottom = 200.0
+text = "Upgrade 2"
+
+[node name="UpgradeOption3" type="Button" parent="UpgradePanel"]
+offset_left = 20.0
+offset_top = 220.0
+offset_right = 500.0
+offset_bottom = 300.0
+text = "Upgrade 3"

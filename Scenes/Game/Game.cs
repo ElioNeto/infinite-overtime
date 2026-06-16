@@ -32,6 +32,14 @@ public partial class Game : Node
             return;
         }
 
+        // Auto-conecta exports que podem não ter sido atribuídos no Inspector/tscn
+        WorldContainer ??= GetNode<Node2D>("WorldContainer");
+        WaveSpawner ??= GetNode<WaveSpawner>("WaveSpawner");
+        FloorManager ??= GetNode<FloorManager>("FloorManager");
+        UpgradeSystem ??= GetNode<UpgradeSystem>("UpgradeSystem");
+        EmployeeScene ??= GD.Load<PackedScene>("res://Scenes/Player/Employee.tscn");
+        HUDScene ??= GD.Load<PackedScene>("res://Scenes/UI/HUD.tscn");
+
         // Escuta eventos do GameManager
         GameManager.Instance.OnGameOver += OnGameOver;
         GameManager.Instance.OnVictory += OnVictory;
@@ -52,6 +60,18 @@ public partial class Game : Node
 
             // Adiciona aos grupos
             _playerInstance.AddToGroup("player");
+
+            // Dá a arma inicial ao jogador
+            var defaultWeapon = GameManager.Instance?.DefaultWeapon;
+            if (defaultWeapon != null)
+            {
+                var weaponNode = new Weapon2D();
+                weaponNode.WeaponData = defaultWeapon;
+                _playerInstance.AddChild(weaponNode);
+
+                GameManager.Instance.AddWeapon(defaultWeapon);
+                GD.Print($"Game: Arma inicial '{defaultWeapon.WeaponName}' equipada.");
+            }
 
             GD.Print("Game: Jogador instanciado.");
         }

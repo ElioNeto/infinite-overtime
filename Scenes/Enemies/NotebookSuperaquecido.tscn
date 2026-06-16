@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://enemy_notebook"]
+
+[ext_resource type="Script" path="res://Scenes/Enemies/BaseEnemy.cs" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xm3p8"]
+
+[node name="NotebookSuperaquecido" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1")
+CollisionShape = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+color = Color(1.0, 0.6, 0.0)
+scale = Vector2(1.0, 0.7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xm3p8")
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="DamageShape" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("RectangleShape2D_xm3p8")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_xm3p8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

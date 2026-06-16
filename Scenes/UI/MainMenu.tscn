@@ -1,49 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://main_menu"]
+[gd_scene format=3 uid="uid://dx83h67g1hkx3"]
 
-[ext_resource type="Script" path="res://Scenes/UI/MainMenu.cs" id="1"]
+[ext_resource type="Script" uid="uid://8xaj676vjte" path="res://Scenes/UI/MainMenu.cs" id="1"]
 
-[node name="MainMenu" type="CanvasLayer"]
+[node name="MainMenu" type="CanvasLayer" unique_id=614986750]
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
-color = Color(0.05, 0.05, 0.08, 1)
-anchors_preset = 0
-layout_mode = 1
+[node name="Background" type="ColorRect" parent="." unique_id=90159565]
 size_flags_horizontal = 3
 size_flags_vertical = 3
+color = Color(0.05, 0.05, 0.08, 1)
 
-[node name="TitleLabel" type="Label" parent="."]
-text = "CORPORATE SURVIVORS"
-horizontal_alignment = 1
-anchors_preset = 0
+[node name="TitleLabel" type="Label" parent="." unique_id=1200720930]
 offset_left = 320.0
 offset_top = 150.0
 offset_right = 960.0
 offset_bottom = 250.0
 theme_override_font_sizes/font_size = 48
-
-[node name="SubtitleLabel" type="Label" parent="."]
-text = "Sobreviva até o amanhecer. O escritório está vivo."
+text = "CORPORATE SURVIVORS"
 horizontal_alignment = 1
-anchors_preset = 0
+
+[node name="SubtitleLabel" type="Label" parent="." unique_id=511627966]
 offset_left = 320.0
 offset_top = 260.0
 offset_right = 960.0
 offset_bottom = 300.0
 theme_override_font_sizes/font_size = 16
+text = "Sobreviva até o amanhecer. O escritório está vivo."
+horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="."]
-text = "NOVO JOGO"
-anchors_preset = 0
+[node name="StartButton" type="Button" parent="." unique_id=624856632]
 offset_left = 460.0
 offset_top = 400.0
 offset_right = 660.0
 offset_bottom = 460.0
+text = "NOVO JOGO"
 
-[node name="QuitButton" type="Button" parent="."]
-text = "SAIR"
-anchors_preset = 0
+[node name="QuitButton" type="Button" parent="." unique_id=663578573]
 offset_left = 460.0
 offset_top = 480.0
 offset_right = 660.0
 offset_bottom = 540.0
+text = "SAIR"

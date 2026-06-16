@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Digitação Acelerada"
+Description = "Você ataca +10% mais rápido."
+Emoji = "⚡"
+MinLevel = 3
+MaxLevel = 99
+RarityWeight = 1.3
+TargetType = 1
+ModifierType = 1
+StatType = 8
+Value = 1.10
+IsStackable = true
+MaxStacks = 4
+TintColor = Color(1.0, 0.9, 0.1, 1.0)

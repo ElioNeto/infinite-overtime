@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Rede de Café"
+Description = "Você conhece os melhores pontos de café.+25% ganho de café."
+Emoji = "📈"
+MinLevel = 2
+MaxLevel = 99
+RarityWeight = 1.5
+TargetType = 0
+ModifierType = 1
+StatType = 4
+Value = 1.25
+IsStackable = true
+MaxStacks = 4
+TintColor = Color(0.8, 0.6, 0.2, 1.0)

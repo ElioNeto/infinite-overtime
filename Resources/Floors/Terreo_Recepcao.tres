@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
+[ext_resource type="Resource" path="res://Resources/Enemies/EmailNaoLido.tres" id="3"]
+[ext_resource type="Resource" path="res://Resources/Enemies/CafeDerramado.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+FloorName = "Térreo — Recepção & Hall"
+FloorIndex = 0
+Description = "A recepção parece normal... até você tentar sair."
+DurationMinutes = 6.0
+HasBoss = false
+EnemyPool = [{
+"Enemy": ExtResource("3"),
+"Weight": 2.0,
+"MinFloorMinute": 0
+}, {
+"Enemy": ExtResource("4"),
+"Weight": 1.0,
+"MinFloorMinute": 0
+}]
+BaseSpawnRate = 1.5
+MaxEnemiesAlive = 30
+AmbientColor = Color(0.15, 0.15, 0.2, 1.0)
+MusicTrack = ""

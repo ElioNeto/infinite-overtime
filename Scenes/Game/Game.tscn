@@ -1,27 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://game_main"]
+[gd_scene load_steps=7 format=3 uid="uid://game_main"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Game.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Systems/WaveSpawner.cs" id="2"]
+[ext_resource type="Script" path="res://Scripts/Systems/FloorManager.cs" id="3"]
+[ext_resource type="Script" path="res://Scripts/Systems/UpgradeSystem.cs" id="4"]
+[ext_resource type="PackedScene" path="res://Scenes/Player/Employee.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/HUD.tscn" id="6"]
+
+[sub_resource type="Environment" id="Environment_jm5n8"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1")
+EmployeeScene = ExtResource("5")
+HUDScene = ExtResource("6")
+WaveSpawner = NodePath("WaveSpawner")
+FloorManager = NodePath("FloorManager")
+UpgradeSystem = NodePath("UpgradeSystem")
+WorldContainer = NodePath("WorldContainer")
 
 [node name="WorldContainer" type="Node2D" parent="."]
 
 [node name="WaveSpawner" type="Node" parent="."]
-script = ExtResource("res://Scripts/Systems/WaveSpawner.cs")
+script = ExtResource("2")
 BaseSpawnRate = 2.0
 MaxEnemiesAlive = 50
 
 [node name="FloorManager" type="Node" parent="."]
-script = ExtResource("res://Scripts/Systems/FloorManager.cs")
+script = ExtResource("3")
 
 [node name="UpgradeSystem" type="Node" parent="."]
-script = ExtResource("res://Scripts/Systems/UpgradeSystem.cs")
+script = ExtResource("4")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_s8d2h")
+environment = SubResource("Environment_jm5n8")
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 visible = false

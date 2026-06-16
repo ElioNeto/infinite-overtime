@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/EmailNaoLido.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+EnemyName = "E-mail Não Lido"
+Description = "Um e-mail que você ignorou e agora ele te persegue."
+Department = "TI"
+MaxHealth = 25.0
+MoveSpeed = 120.0
+Damage = 6.0
+DamageCooldown = 0.3
+CoffeeDrop = 4.0
+BehaviorType = 0
+DetectionRange = 500.0
+SpawnWeight = 2.0
+MinWaveLevel = 1
+Scene = ExtResource("2")
+GlowColor = Color(0.9, 0.15, 0.15, 1.0)

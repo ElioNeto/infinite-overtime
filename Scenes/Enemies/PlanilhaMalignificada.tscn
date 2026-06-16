@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://enemy_planilha"]
+
+[ext_resource type="Script" path="res://Scenes/Enemies/BaseEnemy.cs" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lm4n7"]
+
+[node name="PlanilhaMalignificada" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1")
+CollisionShape = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+color = Color(0.2, 0.4, 0.9)
+scale = Vector2(1.5, 1.0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lm4n7")
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="DamageShape" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("RectangleShape2D_lm4n7")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_lm4n7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

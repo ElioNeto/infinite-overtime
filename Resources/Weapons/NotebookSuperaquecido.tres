@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/WeaponData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Weapons/Projectile.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+WeaponName = "Notebook Superaquecido"
+Description = "Um notebook velho que esquenta e queima tudo ao redor."
+Emoji = "🔥"
+Damage = 8.0
+AttackSpeed = 0.8
+ProjectileSpeed = 400.0
+Range = 250.0
+IsPiercing = false
+ProjectileCount = 1
+SpreadAngle = 0.0
+EffectType = 2
+EffectDuration = 3.0
+EffectValue = 3.0
+MaxLevel = 5
+DamagePerLevel = 3.0
+AttackSpeedPerLevel = 0.05
+ProjectileScene = ExtResource("2")
+ProjectileColor = Color(1.0, 0.4, 0.0, 1.0)

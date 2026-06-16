@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Hora Extra"
+Description = "A empresa te deve horas extras.Menos inimigos spawnam (-10%)."
+Emoji = "⏰"
+MinLevel = 5
+MaxLevel = 99
+RarityWeight = 0.8
+TargetType = 2
+ModifierType = 0
+StatType = 11
+Value = -0.1
+IsStackable = true
+MaxStacks = 3
+TintColor = Color(0.5, 0.5, 0.5, 1.0)

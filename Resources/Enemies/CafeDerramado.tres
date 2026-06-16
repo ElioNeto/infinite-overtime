@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/CafeDerramado.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+EnemyName = "Café Derramado"
+Description = "Aquela mancha de café que não sai. Agora ela se move."
+Department = "Recepção"
+MaxHealth = 80.0
+MoveSpeed = 30.0
+Damage = 5.0
+DamageCooldown = 0.2
+CoffeeDrop = 6.0
+BehaviorType = 5
+DetectionRange = 200.0
+SpawnWeight = 1.2
+MinWaveLevel = 1
+Scene = ExtResource("2")
+GlowColor = Color(0.5, 0.3, 0.15, 1.0)

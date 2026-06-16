@@ -12,9 +12,9 @@ config_version=5
 
 config/name="Corporate Survivors"
 config/description="Um funcionário preso no escritório após o expediente. Sobreviva até o amanhecer."
-config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
 run/main_scene="res://Scenes/UI/MainMenu.tscn"
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+config/icon="res://icon.svg"
 
 [autoload]
 
@@ -25,31 +25,65 @@ AudioManager="*res://Autoload/AudioManager.cs"
 
 project/assembly_name="CorporateSurvivors"
 
+[gui]
+
+theme/use_hidpi=true
+
 [input]
 
 move_left={
-  "deadzone": 0.5,
-  "events": [{"keycode": 65, "type": 0}, {"keycode": 4194319, "type": 0}]
+"deadzone": 0.5,
+"events": [{
+"keycode": 65,
+"type": 0
+}, {
+"keycode": 4194319,
+"type": 0
+}]
 }
 move_right={
-  "deadzone": 0.5,
-  "events": [{"keycode": 68, "type": 0}, {"keycode": 4194321, "type": 0}]
+"deadzone": 0.5,
+"events": [{
+"keycode": 68,
+"type": 0
+}, {
+"keycode": 4194321,
+"type": 0
+}]
 }
 move_up={
-  "deadzone": 0.5,
-  "events": [{"keycode": 87, "type": 0}, {"keycode": 4194320, "type": 0}]
+"deadzone": 0.5,
+"events": [{
+"keycode": 87,
+"type": 0
+}, {
+"keycode": 4194320,
+"type": 0
+}]
 }
 move_down={
-  "deadzone": 0.5,
-  "events": [{"keycode": 83, "type": 0}, {"keycode": 4194322, "type": 0}]
+"deadzone": 0.5,
+"events": [{
+"keycode": 83,
+"type": 0
+}, {
+"keycode": 4194322,
+"type": 0
+}]
 }
 pause={
-  "deadzone": 0.5,
-  "events": [{"keycode": 4194305, "type": 0}]
+"deadzone": 0.5,
+"events": [{
+"keycode": 4194305,
+"type": 0
+}]
 }
 interact={
-  "deadzone": 0.5,
-  "events": [{"keycode": 69, "type": 0}]
+"deadzone": 0.5,
+"events": [{
+"keycode": 69,
+"type": 0
+}]
 }
 
 [physics]
@@ -60,7 +94,3 @@ interact={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-
-[gui]
-
-theme/use_hidpi=true

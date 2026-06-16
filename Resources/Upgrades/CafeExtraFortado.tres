@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Café Extra Forte"
+Description = "Seu coração acelera, mas você corre mais."
+Emoji = "☕"
+MinLevel = 1
+MaxLevel = 99
+RarityWeight = 2.0
+TargetType = 0
+ModifierType = 0
+StatType = 0
+Value = 20.0
+IsStackable = true
+MaxStacks = 5
+TintColor = Color(0.6, 0.3, 0.0, 1.0)

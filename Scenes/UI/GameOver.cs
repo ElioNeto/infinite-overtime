@@ -16,10 +16,10 @@ public partial class GameOver : CanvasLayer
 
     public override void _Ready()
     {
-        TitleLabel ??= GetNode<Label>("%TitleLabel");
-        StatsLabel ??= GetNode<Label>("%StatsLabel");
-        RestartButton ??= GetNode<Button>("%RestartButton");
-        MainMenuButton ??= GetNode<Button>("%MainMenuButton");
+        TitleLabel ??= GetNode<Label>("TitleLabel");
+        StatsLabel ??= GetNode<Label>("StatsLabel");
+        RestartButton ??= GetNode<Button>("RestartButton");
+        MainMenuButton ??= GetNode<Button>("MainMenuButton");
 
         // Mostra estatísticas
         if (GameManager.Instance != null)

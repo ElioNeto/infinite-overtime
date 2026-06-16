@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/NotebookSuperaquecido.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+EnemyName = "Notebook Superaquecido"
+Description = "Um notebook que trabalhou além da conta.literalmente pegando fogo."
+Department = "TI"
+MaxHealth = 35.0
+MoveSpeed = 0.0
+Damage = 14.0
+DamageCooldown = 1.5
+CoffeeDrop = 10.0
+BehaviorType = 3
+DetectionRange = 500.0
+AttackRange = 300.0
+SpawnWeight = 0.8
+MinWaveLevel = 3
+Scene = ExtResource("2")
+GlowColor = Color(1.0, 0.6, 0.0, 1.0)

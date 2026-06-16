@@ -14,8 +14,8 @@ public partial class Victory : CanvasLayer
 
     public override void _Ready()
     {
-        StatsLabel ??= GetNode<Label>("%StatsLabel");
-        MainMenuButton ??= GetNode<Button>("%MainMenuButton");
+        StatsLabel ??= GetNode<Label>("StatsLabel");
+        MainMenuButton ??= GetNode<Button>("MainMenuButton");
 
         // Mostra estatísticas
         if (GameManager.Instance != null)

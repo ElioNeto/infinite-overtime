@@ -49,14 +49,20 @@ public partial class Employee : CharacterBody2D
     {
         _currentHealth = MaxHealth;
 
+        // Auto-conecta nós filhos caso não tenham sido atribuídos no Inspector
+        MagnetArea ??= GetNode<Area2D>("MagnetArea");
+        Sprite ??= GetNode<Sprite2D>("Sprite2D");
+        AnimationPlayer ??= GetNode<AnimationPlayer>("AnimationPlayer");
+
         if (MagnetArea != null)
         {
-            var collisionShape = new CollisionShape2D();
-            var circle = new CircleShape2D();
-            circle.Radius = MagnetRadius;
-            collisionShape.Shape = circle;
-            MagnetArea.AddChild(collisionShape);
+            // Atualiza o raio do shape magnético (pode ter sido alterado por upgrades)
+            UpdateMagnetShape();
             MagnetArea.BodyEntered += OnMagnetAreaEntered;
+        }
+        else
+        {
+            GD.PrintErr("Employee: MagnetArea não encontrado — coleta magnética desativada!");
         }
 
         // Registra no GameManager
@@ -86,14 +92,12 @@ public partial class Employee : CharacterBody2D
         _moveDirection = Input.GetVector("move_left", "move_right", "move_up", "move_down");
         Velocity = _moveDirection * MoveSpeed;
 
-        // Animações (placeholder para sprite rotation / animation)
-        if (AnimationPlayer != null && _moveDirection != Vector2.Zero)
+        // Animações (placeholder — só toca se a animação existir)
+        if (AnimationPlayer != null)
         {
-            AnimationPlayer.Play("walk");
-        }
-        else if (AnimationPlayer != null)
-        {
-            AnimationPlayer.Play("idle");
+            string anim = _moveDirection != Vector2.Zero ? "walk" : "idle";
+            if (AnimationPlayer.HasAnimation(anim))
+                AnimationPlayer.Play(anim);
         }
 
         // Flip sprite baseado na direção
@@ -191,11 +195,22 @@ public partial class Employee : CharacterBody2D
     public void ExpandMagnetRadius(float additionalRadius)
     {
         MagnetRadius += additionalRadius;
-        if (MagnetArea != null && MagnetArea.GetChild(0) is CollisionShape2D shape)
+        UpdateMagnetShape();
+    }
+
+    /// <summary>
+    /// Atualiza o CollisionShape2D do MagnetArea com o raio atual.
+    /// </summary>
+    private void UpdateMagnetShape()
+    {
+        if (MagnetArea == null) return;
+
+        foreach (var child in MagnetArea.GetChildren())
         {
-            if (shape.Shape is CircleShape2D circle)
+            if (child is CollisionShape2D shape && shape.Shape is CircleShape2D circle)
             {
                 circle.Radius = MagnetRadius;
+                return;
             }
         }
     }

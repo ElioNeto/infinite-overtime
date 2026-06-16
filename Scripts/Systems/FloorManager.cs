@@ -29,6 +29,13 @@ public partial class FloorManager : Node
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnFloorCleared += OnFloorCleared;
+
+            // Se nenhum andar foi atribuído no Inspector, carrega do GameManager
+            if (Floors.Count == 0 && GameManager.Instance.Floors.Count > 0)
+            {
+                Floors = GameManager.Instance.Floors;
+                GD.Print($"FloorManager: {Floors.Count} andares carregados do GameManager.");
+            }
         }
     }
 

@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
+[ext_resource type="Resource" path="res://Resources/Enemies/EmailNaoLido.tres" id="3"]
+[ext_resource type="Resource" path="res://Resources/Enemies/PlanilhaMalignificada.tres" id="4"]
+[ext_resource type="Resource" path="res://Resources/Enemies/CafeDerramado.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+FloorName = "2° Andar — Financeiro"
+FloorIndex = 1
+Description = "O cheiro de café queimado se mistura com planilhas voadoras."
+DurationMinutes = 6.0
+HasBoss = false
+EnemyPool = [{
+"Enemy": ExtResource("3"),
+"Weight": 1.5,
+"MinFloorMinute": 0
+}, {
+"Enemy": ExtResource("4"),
+"Weight": 1.5,
+"MinFloorMinute": 0
+}, {
+"Enemy": ExtResource("5"),
+"Weight": 0.8,
+"MinFloorMinute": 1
+}]
+BaseSpawnRate = 2.0
+MaxEnemiesAlive = 35
+AmbientColor = Color(0.2, 0.18, 0.25, 1.0)
+MusicTrack = ""

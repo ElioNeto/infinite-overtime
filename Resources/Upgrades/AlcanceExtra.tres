@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Alcance Extra"
+Description = "Seus ataques alcançam +20% mais longe."
+Emoji = "🎯"
+MinLevel = 4
+MaxLevel = 99
+RarityWeight = 1.2
+TargetType = 1
+ModifierType = 1
+StatType = 9
+Value = 1.20
+IsStackable = true
+MaxStacks = 3
+TintColor = Color(0.2, 0.8, 0.6, 1.0)

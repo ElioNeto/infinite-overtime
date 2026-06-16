@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/AtaDeReuniao.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+EnemyName = "Ata de Reunião"
+Description = "Uma reunião que nunca acaba. Gera mais atas menores."
+Department = "Diretoria"
+MaxHealth = 100.0
+MoveSpeed = 40.0
+Damage = 8.0
+DamageCooldown = 0.6
+CoffeeDrop = 15.0
+BehaviorType = 6
+DetectionRange = 400.0
+SpawnWeight = 0.5
+MinWaveLevel = 5
+Scene = ExtResource("2")
+GlowColor = Color(0.2, 0.7, 0.3, 1.0)

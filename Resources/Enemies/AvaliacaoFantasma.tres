@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemies/AvaliacaoFantasma.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+EnemyName = "Avaliação Fantasma"
+Description = "Uma avaliação de desempenho do além. Aparece e desaparece."
+Department = "RH"
+MaxHealth = 40.0
+MoveSpeed = 200.0
+Damage = 18.0
+DamageCooldown = 1.0
+CoffeeDrop = 12.0
+BehaviorType = 2
+DetectionRange = 600.0
+SpawnWeight = 1.0
+MinWaveLevel = 4
+Scene = ExtResource("2")
+GlowColor = Color(0.7, 0.2, 0.8, 1.0)

@@ -27,8 +27,8 @@ public partial class CoffeeDrop : Area2D
 
     public override void _Ready()
     {
-        // Animação de flutuação
-        if (AnimationPlayer != null)
+        // Animação de flutuação (só toca se existir)
+        if (AnimationPlayer != null && AnimationPlayer.HasAnimation("float"))
         {
             AnimationPlayer.Play("float");
         }
@@ -99,16 +99,19 @@ public partial class CoffeeDrop : Area2D
         if (_collected) return 0f;
         _collected = true;
 
-        if (AnimationPlayer != null)
+        if (AnimationPlayer != null && AnimationPlayer.HasAnimation("collect"))
         {
             AnimationPlayer.Play("collect");
         }
 
-        // Efeito sonoro
-        AudioManager.Instance?.PlaySFXAtPosition(
-            GD.Load<AudioStream>("res://Audio/SFX/coffee_pickup.wav"),
-            GlobalPosition
-        );
+        // Efeito sonoro (só carrega se o arquivo existir)
+        if (ResourceLoader.Exists("res://Audio/SFX/coffee_pickup.wav"))
+        {
+            AudioManager.Instance?.PlaySFXAtPosition(
+                GD.Load<AudioStream>("res://Audio/SFX/coffee_pickup.wav"),
+                GlobalPosition
+            );
+        }
 
         // Pequeno delay antes de sumir pra tocar animação
         var timer = GetTree().CreateTimer(0.2f);

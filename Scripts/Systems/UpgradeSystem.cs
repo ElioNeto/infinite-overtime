@@ -34,13 +34,42 @@ public partial class UpgradeSystem : Node
     }
 
     /// <summary>
-    /// Inicializa a pool padrão de upgrades.
-    /// Os dados serão carregados de Resources .tres na prática.
+    /// Inicializa a pool de upgrades carregando todos os .tres de Resources/Upgrades/.
     /// </summary>
     private void InitializeUpgradePool()
     {
-        // Placeholder — upgrades serão carregados de arquivos .tres
-        GD.Print("UpgradeSystem: Pool de upgrades pronta.");
+        AvailableUpgrades.Clear();
+
+        string upgradesDir = "res://Resources/Upgrades/";
+        if (DirAccess.DirExistsAbsolute(upgradesDir))
+        {
+            var dir = DirAccess.Open(upgradesDir);
+            if (dir != null)
+            {
+                dir.ListDirBegin();
+                string fileName = dir.GetNext();
+                while (!string.IsNullOrEmpty(fileName))
+                {
+                    if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
+                    {
+                        string path = upgradesDir + fileName;
+                        var upgrade = GD.Load<UpgradeData>(path);
+                        if (upgrade != null)
+                        {
+                            AvailableUpgrades.Add(upgrade);
+                            GD.Print($"UpgradeSystem: Upgrade carregado: {upgrade.UpgradeName}");
+                        }
+                    }
+                    fileName = dir.GetNext();
+                }
+                dir.ListDirEnd();
+            }
+        }
+
+        if (AvailableUpgrades.Count == 0)
+            GD.PrintErr("UpgradeSystem: Nenhum upgrade carregado de Resources/Upgrades/!");
+        else
+            GD.Print($"UpgradeSystem: {AvailableUpgrades.Count} upgrades carregados.");
     }
 
     /// <summary>

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Treinamento com Clipes"
+Description = "Seus projéteis causam +15% de dano."
+Emoji = "💪"
+MinLevel = 2
+MaxLevel = 99
+RarityWeight = 1.5
+TargetType = 1
+ModifierType = 1
+StatType = 7
+Value = 1.15
+IsStackable = true
+MaxStacks = 4
+TintColor = Color(0.9, 0.5, 0.1, 1.0)

@@ -65,6 +65,9 @@ public partial class GameManager : Node
     // --- Dados dos Andares ---
     private Godot.Collections.Array<FloorData> _floors = new();
 
+    // --- Arma inicial ---
+    private WeaponData _defaultWeapon;
+
     public override void _Ready()
     {
         if (Instance != null)
@@ -75,6 +78,7 @@ public partial class GameManager : Node
         Instance = this;
         ProcessMode = ProcessModeEnum.Always;
         InitializeFloors();
+        LoadDefaultWeapon();
     }
 
     public override void _Process(double delta)
@@ -102,9 +106,60 @@ public partial class GameManager : Node
 
     private void InitializeFloors()
     {
-        // Os andares serão carregados de Resources ou configurados aqui.
-        // Por enquanto, placeholder — os dados reais vêm de arquivos .tres
-        GD.Print("GameManager: Andares inicializados.");
+        _floors.Clear();
+
+        // Carrega todos os .tres da pasta Resources/Floors/
+        string floorsDir = "res://Resources/Floors/";
+        if (DirAccess.DirExistsAbsolute(floorsDir))
+        {
+            var dir = DirAccess.Open(floorsDir);
+            if (dir != null)
+            {
+                dir.ListDirBegin();
+                string fileName = dir.GetNext();
+                while (!string.IsNullOrEmpty(fileName))
+                {
+                    if (fileName.EndsWith(".tres") || fileName.EndsWith(".res"))
+                    {
+                        string path = floorsDir + fileName;
+                        var floorData = GD.Load<FloorData>(path);
+                        if (floorData != null)
+                        {
+                            _floors.Add(floorData);
+                            GD.Print($"GameManager: Andar carregado: {floorData.FloorName}");
+                        }
+                    }
+                    fileName = dir.GetNext();
+                }
+                dir.ListDirEnd();
+            }
+        }
+
+        // Ordena por FloorIndex
+        var floorList = new System.Collections.Generic.List<FloorData>(_floors);
+        floorList.Sort((a, b) => a.FloorIndex.CompareTo(b.FloorIndex));
+        _floors = new Godot.Collections.Array<FloorData>(floorList);
+
+        if (_floors.Count == 0)
+            GD.PrintErr("GameManager: Nenhum andar carregado de Resources/Floors/!");
+        else
+            GD.Print($"GameManager: {_floors.Count} andares carregados.");
+    }
+
+    /// <summary>
+    /// Carrega a arma inicial padrão dos Resources.
+    /// </summary>
+    private void LoadDefaultWeapon()
+    {
+        _defaultWeapon = GD.Load<WeaponData>("res://Resources/Weapons/ClipesReforcados.tres");
+        if (_defaultWeapon != null)
+        {
+            GD.Print($"GameManager: Arma inicial carregada: {_defaultWeapon.WeaponName}");
+        }
+        else
+        {
+            GD.PrintErr("GameManager: Arma inicial não encontrada!");
+        }
     }
 
     // --- Gerenciamento de Estado ---
@@ -215,6 +270,8 @@ public partial class GameManager : Node
 
     public GameStateType CurrentState => _currentState;
     public int CurrentFloorIndex => _currentFloorIndex;
+    public Godot.Collections.Array<FloorData> Floors => _floors;
+    public WeaponData DefaultWeapon => _defaultWeapon;
     public float ElapsedGameTime => _elapsedGameTime;
     public int CurrentMinute => _lastReportedMinute;
     public int PlayerLevel => _playerLevel;

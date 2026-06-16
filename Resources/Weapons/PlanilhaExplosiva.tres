@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/WeaponData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Weapons/Projectile.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+WeaponName = "Planilha Explosiva"
+Description = "Aquela planilha que trava o Excel e explode na cara do chefe."
+Emoji = "💥"
+Damage = 15.0
+AttackSpeed = 0.6
+ProjectileSpeed = 300.0
+Range = 200.0
+IsPiercing = false
+ProjectileCount = 1
+SpreadAngle = 0.0
+EffectType = 3
+EffectDuration = 0.5
+EffectValue = 50.0
+MaxLevel = 5
+DamagePerLevel = 6.0
+AttackSpeedPerLevel = 0.03
+ProjectileScene = ExtResource("2")
+ProjectileColor = Color(0.2, 0.8, 0.2, 1.0)

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Scripts/Data/UpgradeData.cs" id="1"]
+[resource]
+script = ExtResource("1")
+UpgradeName = "Armadura Corporativa"
+Description = "O blazer engomado reduz 5% do dano recebido."
+Emoji = "🛡️"
+MinLevel = 5
+MaxLevel = 99
+RarityWeight = 1.0
+TargetType = 0
+ModifierType = 0
+StatType = 3
+Value = 5.0
+IsStackable = true
+MaxStacks = 3
+TintColor = Color(0.4, 0.4, 0.6, 1.0)

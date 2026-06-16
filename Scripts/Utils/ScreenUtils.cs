@@ -55,7 +55,7 @@ public static class ScreenUtils
     public static Vector2 RandomEdgePosition()
     {
         Vector2 size = GetScreenSize();
-        int edge = GD.Randi() % 4;
+        int edge = (int)(GD.Randi() % 4);
         return edge switch
         {
             0 => new Vector2(GD.Randf() * size.X, 0),                         // Topo
@@ -78,12 +78,13 @@ public static class ScreenUtils
     }
 
     /// <summary>
-    /// Converte posição global para posição de tela (UI).
+    /// Converte posição global para posição local da câmera (coordendas de tela aproximadas).
     /// </summary>
     public static Vector2 GlobalToScreen(Vector2 globalPosition, Camera2D camera)
     {
         if (camera == null) return globalPosition;
-        return camera.UnprojectPosition(globalPosition);
+        // Camera2D não tem UnprojectPosition no Godot 4; usa ToLocal como aproximação.
+        return camera.ToLocal(globalPosition);
     }
 
     /// <summary>
