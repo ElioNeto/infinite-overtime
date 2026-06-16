@@ -1,10 +1,25 @@
-[gd_resource type="Resource" load_steps=6 format=3]
+[gd_resource type="Resource" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
 [ext_resource type="Resource" path="res://Resources/Enemies/EmailNaoLido.tres" id="3"]
 [ext_resource type="Resource" path="res://Resources/Enemies/PlanilhaMalignificada.tres" id="4"]
 [ext_resource type="Resource" path="res://Resources/Enemies/NotebookSuperaquecido.tres" id="5"]
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_r1"]
+Enemy = ExtResource("3")
+Weight = 1.0
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_r2"]
+Enemy = ExtResource("4")
+Weight = 1.5
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_r3"]
+Enemy = ExtResource("5")
+Weight = 1.0
+MinFloorMinute = 2
 
 [resource]
 script = ExtResource("1")
@@ -13,19 +28,7 @@ FloorIndex = 2
 Description = "Avaliações de desempenho pairando no ar..."
 DurationMinutes = 6.0
 HasBoss = false
-EnemyPool = [{
-"Enemy": ExtResource("3"),
-"Weight": 1.0,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("4"),
-"Weight": 1.5,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("5"),
-"Weight": 1.0,
-"MinFloorMinute": 2
-}]
+EnemyPool = [SubResource("EnemySpawnEntry_r1"), SubResource("EnemySpawnEntry_r2"), SubResource("EnemySpawnEntry_r3")]
 BaseSpawnRate = 2.5
 MaxEnemiesAlive = 40
 AmbientColor = Color(0.25, 0.2, 0.3, 1.0)

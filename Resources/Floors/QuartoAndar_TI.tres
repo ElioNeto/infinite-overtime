@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=7 format=3]
+[gd_resource type="Resource" load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
@@ -7,6 +7,26 @@
 [ext_resource type="Resource" path="res://Resources/Enemies/AvaliacaoFantasma.tres" id="5"]
 [ext_resource type="Resource" path="res://Resources/Enemies/CafeDerramado.tres" id="6"]
 
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q1"]
+Enemy = ExtResource("3")
+Weight = 1.0
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q2"]
+Enemy = ExtResource("4")
+Weight = 1.5
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q3"]
+Enemy = ExtResource("5")
+Weight = 0.8
+MinFloorMinute = 2
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q4"]
+Enemy = ExtResource("6")
+Weight = 0.5
+MinFloorMinute = 0
+
 [resource]
 script = ExtResource("1")
 FloorName = "4° Andar — TI"
@@ -14,23 +34,7 @@ FloorIndex = 3
 Description = "Servidores zumbis e cabos que ganham vida própria."
 DurationMinutes = 6.0
 HasBoss = false
-EnemyPool = [{
-"Enemy": ExtResource("3"),
-"Weight": 1.0,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("4"),
-"Weight": 1.5,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("5"),
-"Weight": 0.8,
-"MinFloorMinute": 2
-}, {
-"Enemy": ExtResource("6"),
-"Weight": 0.5,
-"MinFloorMinute": 0
-}]
+EnemyPool = [SubResource("EnemySpawnEntry_q1"), SubResource("EnemySpawnEntry_q2"), SubResource("EnemySpawnEntry_q3"), SubResource("EnemySpawnEntry_q4")]
 BaseSpawnRate = 3.0
 MaxEnemiesAlive = 45
 AmbientColor = Color(0.1, 0.25, 0.3, 1.0)

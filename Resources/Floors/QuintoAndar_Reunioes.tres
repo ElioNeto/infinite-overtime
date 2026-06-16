@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=8 format=3]
+[gd_resource type="Resource" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
@@ -8,6 +8,31 @@
 [ext_resource type="Resource" path="res://Resources/Enemies/AvaliacaoFantasma.tres" id="6"]
 [ext_resource type="Resource" path="res://Resources/Enemies/AtaDeReuniao.tres" id="7"]
 
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q1"]
+Enemy = ExtResource("3")
+Weight = 0.8
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q2"]
+Enemy = ExtResource("4")
+Weight = 1.0
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q3"]
+Enemy = ExtResource("5")
+Weight = 1.0
+MinFloorMinute = 1
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q4"]
+Enemy = ExtResource("6")
+Weight = 1.0
+MinFloorMinute = 2
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_q5"]
+Enemy = ExtResource("7")
+Weight = 0.5
+MinFloorMinute = 3
+
 [resource]
 script = ExtResource("1")
 FloorName = "5° Andar — Reuniões"
@@ -15,27 +40,7 @@ FloorIndex = 4
 Description = "Salas de reunião infinitas. As atas ganharam vida."
 DurationMinutes = 6.0
 HasBoss = false
-EnemyPool = [{
-"Enemy": ExtResource("3"),
-"Weight": 0.8,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("4"),
-"Weight": 1.0,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("5"),
-"Weight": 1.0,
-"MinFloorMinute": 1
-}, {
-"Enemy": ExtResource("6"),
-"Weight": 1.0,
-"MinFloorMinute": 2
-}, {
-"Enemy": ExtResource("7"),
-"Weight": 0.5,
-"MinFloorMinute": 3
-}]
+EnemyPool = [SubResource("EnemySpawnEntry_q1"), SubResource("EnemySpawnEntry_q2"), SubResource("EnemySpawnEntry_q3"), SubResource("EnemySpawnEntry_q4"), SubResource("EnemySpawnEntry_q5")]
 BaseSpawnRate = 3.5
 MaxEnemiesAlive = 50
 AmbientColor = Color(0.3, 0.2, 0.2, 1.0)

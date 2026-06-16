@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=9 format=3]
+[gd_resource type="Resource" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Data/FloorData.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/Data/EnemyData.cs" id="2"]
@@ -9,6 +9,36 @@
 [ext_resource type="Resource" path="res://Resources/Enemies/AtaDeReuniao.tres" id="7"]
 [ext_resource type="Resource" path="res://Resources/Enemies/CafeDerramado.tres" id="8"]
 
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_d1"]
+Enemy = ExtResource("3")
+Weight = 1.0
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_d2"]
+Enemy = ExtResource("4")
+Weight = 1.0
+MinFloorMinute = 0
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_d3"]
+Enemy = ExtResource("5")
+Weight = 1.2
+MinFloorMinute = 1
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_d4"]
+Enemy = ExtResource("6")
+Weight = 1.5
+MinFloorMinute = 2
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_d5"]
+Enemy = ExtResource("7")
+Weight = 1.0
+MinFloorMinute = 2
+
+[sub_resource type="EnemySpawnEntry" id="EnemySpawnEntry_d6"]
+Enemy = ExtResource("8")
+Weight = 0.5
+MinFloorMinute = 0
+
 [resource]
 script = ExtResource("1")
 FloorName = "6° Andar — Diretoria"
@@ -17,31 +47,7 @@ Description = "O topo do prédio. O CEO final espera por você."
 DurationMinutes = 6.0
 HasBoss = true
 BossName = "CEO Espectral"
-EnemyPool = [{
-"Enemy": ExtResource("3"),
-"Weight": 1.0,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("4"),
-"Weight": 1.0,
-"MinFloorMinute": 0
-}, {
-"Enemy": ExtResource("5"),
-"Weight": 1.2,
-"MinFloorMinute": 1
-}, {
-"Enemy": ExtResource("6"),
-"Weight": 1.5,
-"MinFloorMinute": 2
-}, {
-"Enemy": ExtResource("7"),
-"Weight": 1.0,
-"MinFloorMinute": 2
-}, {
-"Enemy": ExtResource("8"),
-"Weight": 0.5,
-"MinFloorMinute": 0
-}]
+EnemyPool = [SubResource("EnemySpawnEntry_d1"), SubResource("EnemySpawnEntry_d2"), SubResource("EnemySpawnEntry_d3"), SubResource("EnemySpawnEntry_d4"), SubResource("EnemySpawnEntry_d5"), SubResource("EnemySpawnEntry_d6")]
 BaseSpawnRate = 4.0
 MaxEnemiesAlive = 60
 AmbientColor = Color(0.35, 0.1, 0.15, 1.0)
