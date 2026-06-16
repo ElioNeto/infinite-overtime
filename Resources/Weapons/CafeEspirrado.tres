@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/WeaponData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Weapons/Projectile.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+WeaponName = "Café Espirrado"
+Description = "Aquele gole que escapa quando você dá aquela tossida."
+Emoji = "💦"
+Damage = 6.0
+AttackSpeed = 1.2
+ProjectileSpeed = 500.0
+Range = 250.0
+IsPiercing = false
+ProjectileCount = 3
+SpreadAngle = 30.0
+EffectType = 0
+MaxLevel = 5
+DamagePerLevel = 2.0
+AttackSpeedPerLevel = 0.05
+ProjectileScene = ExtResource("2")
+ProjectileColor = Color(0.6, 0.3, 0.15, 1.0)

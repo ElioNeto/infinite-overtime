@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Data/WeaponData.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Weapons/Projectile.tscn" id="2"]
+
+[resource]
+script = ExtResource("1")
+WeaponName = "Impressora Fantasma"
+Description = "Uma impressora que assombra o escritório. Dispara papel em todas as direções."
+Emoji = "🖨️"
+Damage = 7.0
+AttackSpeed = 1.5
+ProjectileSpeed = 350.0
+Range = 300.0
+IsPiercing = false
+ProjectileCount = 8
+SpreadAngle = 360.0
+EffectType = 0
+MaxLevel = 5
+DamagePerLevel = 2.0
+AttackSpeedPerLevel = 0.03
+ProjectileScene = ExtResource("2")
+ProjectileColor = Color(0.9, 0.9, 0.9, 1.0)

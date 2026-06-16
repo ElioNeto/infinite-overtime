@@ -319,10 +319,13 @@ Resources/
 │   ├── CafeDerramado.tres
 │   ├── AtaDeReuniao.tres
 │   └── NotebookSuperaquecido.tres
-├── Weapons/        ← 3 WeaponData.tres (armas do jogador)
-│   ├── ClipesReforcados.tres
-│   ├── NotebookSuperaquecido.tres
-│   └── PlanilhaExplosiva.tres
+├── Weapons/        ← 6 WeaponData.tres (armas do jogador)
+│   ├── ClipesReforcados.tres            (disparo único, médio dano)
+│   ├── NotebookSuperaquecido.tres       (burn — dano contínuo)
+│   ├── PlanilhaExplosiva.tres           (explosão em área)
+│   ├── CaféEspirrado.tres               (3 projéteis em cone)
+│   ├── MensagemPassivoAgressiva.tres    (piercing + slow)
+│   └── ImpressoraFantasma.tres          (8 projéteis 360°)
 ├── Upgrades/       ← 11 UpgradeData.tres (melhorias)
 │   ├── CafeExtraFortado.tres       (velocidade)
 │   ├── VidaExtra.tres              (vida máxima)

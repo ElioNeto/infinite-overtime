@@ -28,29 +28,33 @@ public partial class HUD : CanvasLayer
 
     public override void _Ready()
     {
+        // Auto-conecta nós filhos por nome (fallback caso não atribuídos no Inspector)
+        TimerLabel ??= GetNode<Label>("TimerLabel");
+        FloorLabel ??= GetNode<Label>("FloorLabel");
+        LevelLabel ??= GetNode<Label>("LevelLabel");
+        CoffeeLabel ??= GetNode<Label>("CoffeeLabel");
+        HealthLabel ??= GetNode<Label>("HealthLabel");
+        HealthBar ??= GetNode<ProgressBar>("HealthBar");
+        CoffeeBar ??= GetNode<ProgressBar>("CoffeeBar");
+        UpgradePanel ??= GetNode<Control>("UpgradePanel");
+        UpgradeOption1 ??= GetNode<Button>("UpgradePanel/UpgradeOption1");
+        UpgradeOption2 ??= GetNode<Button>("UpgradePanel/UpgradeOption2");
+        UpgradeOption3 ??= GetNode<Button>("UpgradePanel/UpgradeOption3");
+
         // Conecta eventos do GameManager
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnMinutePassed += UpdateTimer;
-            GameManager.Instance.OnLeveledUp += OnLeveledUp;
             GameManager.Instance.OnFloorCleared += OnFloorChanged;
 
-            // UpgradeSystem disponível na cena Game
-            var upgradeSystem = GetNodeOrNull<UpgradeSystem>("../UpgradeSystem");
-            if (upgradeSystem == null)
-                upgradeSystem = GetNodeOrNull<UpgradeSystem>("/root/Game/UpgradeSystem");
-
             // Mostra upgrade panel quando sobe de nível
-            GameManager.Instance.OnLeveledUp += (level) =>
-            {
-                if (UpgradePanel != null)
-                {
-                    UpgradePanel.Visible = true;
-                    var choices = upgradeSystem?.GetUpgradeChoices(level);
-                    SetupUpgradeChoices(choices);
-                }
-            };
+            GameManager.Instance.OnLeveledUp += ShowUpgradePanel;
         }
+
+        // Conecta botões de upgrade (uma vez, evita acúmulo)
+        if (UpgradeOption1 != null) UpgradeOption1.Pressed += () => OnUpgradeButtonPressed(0);
+        if (UpgradeOption2 != null) UpgradeOption2.Pressed += () => OnUpgradeButtonPressed(1);
+        if (UpgradeOption3 != null) UpgradeOption3.Pressed += () => OnUpgradeButtonPressed(2);
 
         // Esconde upgrade panel inicialmente
         if (UpgradePanel != null)
@@ -61,6 +65,19 @@ public partial class HUD : CanvasLayer
         UpdateLevel(1);
         UpdateHealth(100, 100);
         UpdateCoffee(0);
+    }
+
+    private void ShowUpgradePanel(int newLevel)
+    {
+        if (UpgradePanel == null) return;
+
+        var upgradeSystem = GetNodeOrNull<UpgradeSystem>("../UpgradeSystem");
+        if (upgradeSystem == null)
+            upgradeSystem = GetNodeOrNull<UpgradeSystem>("/root/Game/UpgradeSystem");
+
+        UpgradePanel.Visible = true;
+        var choices = upgradeSystem?.GetUpgradeChoices(newLevel);
+        SetupUpgradeChoices(choices);
     }
 
     public override void _Process(double delta)
@@ -137,13 +154,14 @@ public partial class HUD : CanvasLayer
         }
     }
 
-    private void OnLeveledUp(int level)
-    {
-        // Upgrade panel é exibido pelo evento conectado no _Ready
-    }
+    // OnLeveledUp é tratado por ShowUpgradePanel
+
+    // Armazena as escolhas atuais para evitar reconexão de sinais
+    private Godot.Collections.Array<Data.UpgradeData> _currentChoices = new();
 
     private void SetupUpgradeChoices(Godot.Collections.Array<Data.UpgradeData> choices)
     {
+        _currentChoices = choices;
         var buttons = new[] { UpgradeOption1, UpgradeOption2, UpgradeOption3 };
         var upgradeSystem = GetNodeOrNull<UpgradeSystem>("../UpgradeSystem");
 
@@ -151,26 +169,37 @@ public partial class HUD : CanvasLayer
         {
             if (buttons[i] == null) continue;
 
-            if (i < choices.Count)
+            if (i < _currentChoices.Count)
             {
-                var upgrade = choices[i];
+                var upgrade = _currentChoices[i];
                 buttons[i].Visible = true;
                 buttons[i].Text = $"{upgrade.Emoji} {upgrade.UpgradeName}\n{upgrade.Description}";
-
-                // Remove handlers antigos
-                buttons[i].Pressed -= () => { };
-                int capturedIndex = i;
-                buttons[i].Pressed += () =>
-                {
-                    upgradeSystem?.ApplyUpgrade(choices[capturedIndex]);
-                    if (UpgradePanel != null)
-                        UpgradePanel.Visible = false;
-                };
+                buttons[i].Disabled = false;
             }
             else
             {
                 buttons[i].Visible = false;
+                buttons[i].Disabled = true;
             }
         }
+    }
+
+    /// <summary>
+    /// Chamado pelos botões de upgrade (conectado no Inspector ou via código).
+    /// Cada botão chama este método com seu índice como argumento.
+    /// </summary>
+    private void OnUpgradeButtonPressed(int index)
+    {
+        var upgradeSystem = GetNodeOrNull<UpgradeSystem>("../UpgradeSystem");
+        if (upgradeSystem == null)
+            upgradeSystem = GetNodeOrNull<UpgradeSystem>("/root/Game/UpgradeSystem");
+
+        if (index >= 0 && index < _currentChoices.Count)
+        {
+            upgradeSystem?.ApplyUpgrade(_currentChoices[index]);
+        }
+
+        if (UpgradePanel != null)
+            UpgradePanel.Visible = false;
     }
 }
