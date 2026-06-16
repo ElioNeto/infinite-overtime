@@ -10,6 +10,7 @@ script = ExtResource("1")
 CollisionShape = NodePath("CollisionShape2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2")
 modulate = Color(0.9, 0.15, 0.15)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
