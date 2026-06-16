@@ -7,7 +7,6 @@
 
 [node name="EmailNaoLido" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1")
-CollisionShape = NodePath("CollisionShape2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2")
